@@ -2,7 +2,6 @@ package io.swagger.api;
 
 import io.swagger.model.Channel;
 import io.swagger.model.ChannelExecuteActionRequest;
-import io.swagger.model.ChannelFunctionEnumNames;
 import io.swagger.model.ChannelMeasurementLog;
 import io.swagger.model.ChannelUpdateRequest;
 import io.swagger.model.Schedule;
@@ -68,12 +67,12 @@ public class ChannelsApiControllerIntegrationTest {
 
     @Test
     public void getChannelsTest() throws Exception {
-        List<String> include = Arrays.asList("include_example");
-        List<ChannelFunctionEnumNames> function = Arrays.asList(new ChannelFunctionEnumNames());
-        String io = "io_example";
-        Boolean hasFunction = true;
-        ResponseEntity<List<Channel>> responseEntity = api.getChannels(include, function, io, hasFunction);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//        List<String> include = Arrays.asList("include_example");
+//        List<ChannelFunctionEnumNames> function = Arrays.asList(new ChannelFunctionEnumNames());
+//        String io = "io_example";
+//        Boolean hasFunction = true;
+//        ResponseEntity<List<Channel>> responseEntity = api.getChannels(include, function, io, hasFunction);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
     @Test

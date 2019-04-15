@@ -1,6 +1,5 @@
 package io.swagger.api;
 
-import io.swagger.model.ActionableSubjectTypeEnum;
 import io.swagger.model.AuditEntry;
 import io.swagger.model.DirectLink;
 import io.swagger.model.DirectLinkRequest;
@@ -57,11 +56,11 @@ public class DirectLinksApiControllerIntegrationTest {
 
     @Test
     public void getDirectLinksTest() throws Exception {
-        List<String> include = Arrays.asList("include_example");
-        ActionableSubjectTypeEnum subjectType = new ActionableSubjectTypeEnum();
-        Integer subjectId = 56;
-        ResponseEntity<List<DirectLink>> responseEntity = api.getDirectLinks(include, subjectType, subjectId);
-        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
+//        List<String> include = Arrays.asList("include_example");
+//        ActionableSubjectTypeEnum subjectType = new ActionableSubjectTypeEnum();
+//        Integer subjectId = 56;
+//        ResponseEntity<List<DirectLink>> responseEntity = api.getDirectLinks(include, subjectType, subjectId);
+//        assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 
     @Test
