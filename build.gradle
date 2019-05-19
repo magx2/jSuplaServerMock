@@ -25,6 +25,8 @@ targetCompatibility = 1.8
 
 group = 'pl.grzeslowski.jsuplaservermock'
 
+apply from: 'integration-tests.gradle'
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
 
