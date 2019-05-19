@@ -52,7 +52,7 @@ For more api calls you can check [Supla Swagger Hub](https://app.swaggerhub.com/
 
 ## Authorization
 
-Most of calls need to be authorized with oAuth token. The default token is `MzFhYTNiZTAwODg5M2E0NDE3OGUwNWE5ZjYzZWQ2YzllZGFiYWRmNDQwNDBlNmZhZGEzN2I3NTJiOWM2ZWEyZg`. You can change it in `/src/main/resources/application/yml` or during startup via Spring Boot properties (`--jsupla.token=your_token`).
+Most of calls need to be authorized with oAuth token. The default token is `MzFhYTNiZTAwODg5M2E0NDE3OGUwNWE5ZjYzZWQ2YzllZGFiYWRmNDQwNDBlNmZhZGEzN2I3NTJiOWM2ZWEyZg`. You can change it in `/src/main/resources/application.yml` or during startup via Spring Boot properties (`--jsupla.token=your_token`).
 
 _Note: Tokens generated from Supla Cloud are made from 2 parts that are separated with dot. First part is plain OAuth token. Second part is server URL encoded in Base64. In this implementation you don't need to pass anything as server URL, but if you will pass it, it will be trimmed._    
 
