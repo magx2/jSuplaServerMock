@@ -1,5 +1,5 @@
 language: java
-sudo: false
+sudo: true
 script: ./gradlew clean build -s && ./gradlew ciPerformRelease
 matrix:
   include:
