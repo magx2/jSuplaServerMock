@@ -22,7 +22,7 @@ public final class Database {
     private final String port;
 
     public Database(
-            @Value("${server.contextPath}") final String contextPath,
+            @Value("${server.servlet.context-path}") final String contextPath,
             @Value("${server.port}") final String port) {
         this.contextPath = contextPath;
         this.port = port;
