@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import pl.grzeslowski.jsuplaservermock.Database;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class ServerInfoApiController implements ServerInfoApi {
         this.database = database;
     }
 
+    @GetMapping
     public ResponseEntity<ServerInfo> getServerInfo() {
         return ok(database.getServerInfo());
     }
