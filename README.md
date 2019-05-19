@@ -1,3 +1,14 @@
+***
+
+<div align="center">
+
+[![Build Status](https://travis-ci.org/magx2/jSuplaServerMock.svg?branch=master)](https://travis-ci.org/magx2/jSuplaServerMock)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
+§
+</div>
+
+***
+
 # Swagger generated server
 
 Spring Boot Server 
