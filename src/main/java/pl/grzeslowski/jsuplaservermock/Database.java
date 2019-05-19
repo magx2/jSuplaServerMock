@@ -61,6 +61,6 @@ public final class Database {
                        .apiVersion("2.3.0")
                        .supportedApiVersions(Collections.singletonList("2.3.0"))
                        .cloudVersion("2.3.0")
-                       .address("localhost" + contextPath + ":" + port);
+                       .address("http://localhost:" + port + contextPath);
     }
 }
