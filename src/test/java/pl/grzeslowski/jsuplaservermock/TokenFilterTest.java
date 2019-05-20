@@ -106,6 +106,24 @@ class TokenFilterTest {
         verifyZeroInteractions(chain);
     }
 
+    @Test
+    @DisplayName("should authorize if url is in url not to authorize")
+    void contextPath() throws IOException, ServletException {
+        // given
+        final String contextPath = "/context-path";
+        final String url = "/api-docs";
+        given(request.getRequestURI()).willReturn(contextPath + url);
+        given(request.getContextPath()).willReturn(contextPath);
+
+        // when
+        filter.doFilter(request, response, chain);
+
+        // then
+        verify(chain).doFilter(request, response);
+        verifyZeroInteractions(response);
+        verifyZeroInteractions(servletOutputStream);
+    }
+
     @ParameterizedTest
     @MethodSource("emptyTokenParams")
     @DisplayName("should not do authorization if token is empty")

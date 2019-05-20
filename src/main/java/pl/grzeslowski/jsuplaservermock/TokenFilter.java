@@ -39,7 +39,7 @@ class TokenFilter implements Filter {
         }
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
-        final String url = request.getRequestURI();
+        final String url = findUrl(request);
         final boolean shouldNotCheckAuthorization =
                 URLS_NOT_TO_AUTHORIZE.stream().anyMatch(notToAuthorize -> notToAuthorize.equalsIgnoreCase(url));
         if (shouldNotCheckAuthorization) {
@@ -66,6 +66,15 @@ class TokenFilter implements Filter {
             logger.warn("Wrong token `{}` during authorization!", requestToken);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getOutputStream().write(("Wrong token `" + requestToken + "` during authorization!").getBytes(Charset.forName("UTF-8")));
+        }
+    }
+
+    private String findUrl(final HttpServletRequest request) {
+        final String contextPath = request.getContextPath();
+        if (contextPath != null) {
+            return request.getRequestURI().substring(request.getContextPath().length());
+        } else {
+            return request.getRequestURI();
         }
     }
 }
