@@ -22,7 +22,7 @@ import static java.util.Arrays.asList;
 @Component
 class TokenFilter implements Filter {
     private static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
-    private static final List<String> URLS_NOT_TO_AUTHORIZE = asList("/api/v2.3.0/api-docs", "/api/v2.3.0/server-info");
+    private static final List<String> URLS_NOT_TO_AUTHORIZE = asList("/api-docs", "/server-info", "/server-status");
     private final Logger logger = LoggerFactory.getLogger(TokenFilter.class);
     private final String token;
 
@@ -39,8 +39,7 @@ class TokenFilter implements Filter {
         }
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
-        final String url = request.getRequestURI();
-        System.out.println(" > url " + url);
+        final String url = findUrl(request);
         final boolean shouldNotCheckAuthorization =
                 URLS_NOT_TO_AUTHORIZE.stream().anyMatch(notToAuthorize -> notToAuthorize.equalsIgnoreCase(url));
         if (shouldNotCheckAuthorization) {
@@ -67,6 +66,15 @@ class TokenFilter implements Filter {
             logger.warn("Wrong token `{}` during authorization!", requestToken);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getOutputStream().write(("Wrong token `" + requestToken + "` during authorization!").getBytes(Charset.forName("UTF-8")));
+        }
+    }
+
+    private String findUrl(final HttpServletRequest request) {
+        final String contextPath = request.getContextPath();
+        if (contextPath != null) {
+            return request.getRequestURI().substring(request.getContextPath().length());
+        } else {
+            return request.getRequestURI();
         }
     }
 }

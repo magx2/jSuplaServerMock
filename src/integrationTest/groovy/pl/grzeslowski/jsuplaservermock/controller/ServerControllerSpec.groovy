@@ -1,4 +1,4 @@
-package pl.grzeslowski.jsuplaservermock
+package pl.grzeslowski.jsuplaservermock.controller
 
 import io.swagger.Swagger2SpringBoot
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,15 +12,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = Swagger2SpringBoot.class)
 @AutoConfigureMockMvc
-class InitSpec extends Specification {
+class ServerControllerSpec extends Specification {
 	@Autowired
 	MockMvc mvc
 
-	def "should get 200 on api docs endpoint"() {
-		given:
-		def request = get("/api-docs")
-
+	def "should find server info"() {
 		expect:
-		mvc.perform(request).andExpect(status().isOk())
+		mvc.perform(get("/server-info")).andExpect(status().isOk())
+	}
+
+	def "should find server status"() {
+		expect:
+		mvc.perform(get("/server-status")).andExpect(status().isOk())
 	}
 }
