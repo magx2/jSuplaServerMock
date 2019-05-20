@@ -22,7 +22,7 @@ import static java.util.Arrays.asList;
 @Component
 class TokenFilter implements Filter {
     private static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
-    private static final List<String> URLS_NOT_TO_AUTHORIZE = asList("/api/v2.3.0/api-docs", "/api/v2.3.0/server-info", "/api/v2.3.0/server-status");
+    private static final List<String> URLS_NOT_TO_AUTHORIZE = asList("/api-docs", "/server-info", "/server-status");
     private final Logger logger = LoggerFactory.getLogger(TokenFilter.class);
     private final String token;
 

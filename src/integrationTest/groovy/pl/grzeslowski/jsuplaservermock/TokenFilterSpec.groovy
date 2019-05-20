@@ -27,12 +27,12 @@ class TokenFilterSpec extends Specification {
 		mvc.perform(get(endpoint)).andExpect(status().isOk())
 
 		where:
-		endpoint << ['/api/v2.3.0/api-docs', '/api/v2.3.0/server-info']
+		endpoint << ['/api-docs', '/server-info']
 	}
 
 	def "should return 200 when authorization succeed"() {
 		given:
-		def request = get("/api/v2.3.0/channels")
+		def request = get("/channels")
 				.header("Authorization", "Bearer $token")
 
 		expect:
@@ -41,7 +41,7 @@ class TokenFilterSpec extends Specification {
 
 	def "should return 403 when there is wrong authorization token"() {
 		given:
-		def request = get("/api/v2.3.0/channels")
+		def request = get("/channels")
 				.header("Authorization", "Bearer wrong")
 
 		expect:
@@ -50,7 +50,7 @@ class TokenFilterSpec extends Specification {
 
 	def "should return 401 when there is no authorization token"() {
 		given:
-		def request = get("/api/v2.3.0/channels")
+		def request = get("/channels")
 
 		expect:
 		mvc.perform(request).andExpect(status().isUnauthorized())

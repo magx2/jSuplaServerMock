@@ -18,11 +18,11 @@ class ServerControllerSpec extends Specification {
 
 	def "should find server info"() {
 		expect:
-		mvc.perform(get("/api/v2.3.0/server-info")).andExpect(status().isOk())
+		mvc.perform(get("/server-info")).andExpect(status().isOk())
 	}
 
 	def "should find server status"() {
 		expect:
-		mvc.perform(get("/api/v2.3.0/server-status")).andExpect(status().isOk())
+		mvc.perform(get("/server-status")).andExpect(status().isOk())
 	}
 }

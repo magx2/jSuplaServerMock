@@ -18,7 +18,7 @@ class InitSpec extends Specification {
 
 	def "should get 200 on api docs endpoint"() {
 		given:
-		def request = get("/api/v2.3.0/api-docs")
+		def request = get("/api-docs")
 
 		expect:
 		mvc.perform(request).andExpect(status().isOk())

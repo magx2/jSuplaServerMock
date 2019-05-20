@@ -10,9 +10,9 @@ import pl.grzeslowski.jsuplaservermock.Database
 
 @RestController
 class ServerController(val database: Database) : ServerInfoApi, ServerStatusApi {
-    @GetMapping("/api/v2.3.0/server-info")
+    @GetMapping("/server-info")
     override fun getServerInfo(): ResponseEntity<ServerInfo> = ResponseEntity.ok(database.serverInfo)
 
-    @GetMapping("/api/v2.3.0/server-status")
+    @GetMapping("/server-status")
     override fun getSuplaServerStatus(): ResponseEntity<Void> = ResponseEntity.ok().build()
 }
