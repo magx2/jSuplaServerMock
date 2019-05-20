@@ -10,3 +10,5 @@ logging.level:
   org.springframework.web: INFO
   io.swagger: INFO
   pl.grzeslowski: INFO
+jsupla:
+  token: MzFhYTNiZTAwODg5M2E0NDE3OGUwNWE5ZjYzZWQ2YzllZGFiYWRmNDQwNDBlNmZhZGEzN2I3NTJiOWM2ZWEyZg
