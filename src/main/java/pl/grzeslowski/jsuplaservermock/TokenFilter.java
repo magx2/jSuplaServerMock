@@ -14,12 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import static com.google.common.base.Strings.emptyToNull;
+import static java.util.Arrays.asList;
 
 @Component
 class TokenFilter implements Filter {
     private static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
+    private static final List<String> URLS_NOT_TO_AUTHORIZE = asList("/api/v2.3.0/api-docs", "/api/v2.3.0/server-info");
     private final Logger logger = LoggerFactory.getLogger(TokenFilter.class);
     private final String token;
 
@@ -36,6 +39,14 @@ class TokenFilter implements Filter {
         }
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
+        final String url = request.getRequestURI();
+        System.out.println(" > url " + url);
+        final boolean shouldNotCheckAuthorization =
+                URLS_NOT_TO_AUTHORIZE.stream().anyMatch(notToAuthorize -> notToAuthorize.equalsIgnoreCase(url));
+        if (shouldNotCheckAuthorization) {
+            chain.doFilter(servletRequest, servletResponse);
+            return;
+        }
         final String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null) {
             logger.warn("There is no authorization header!");
