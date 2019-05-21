@@ -25,6 +25,7 @@ public interface DeviceService {
      * Changes comment for device with given ID.
      *
      * @param id ID of device to change
+     * @param comment new devices comment
      * @return changed device
      * @throws EntityNotFoundException when device with given ID does not exists
      */
@@ -34,6 +35,7 @@ public interface DeviceService {
      * Changes enabled for device with given ID.
      *
      * @param id ID of device to change
+     * @param enabled is device enabled
      * @return changed device
      * @throws EntityNotFoundException when device with given ID does not exists
      */
@@ -43,6 +45,7 @@ public interface DeviceService {
      * Changes location ID for device with given ID.
      *
      * @param id ID of device to change
+     * @param locationId  ID of location
      * @return changed device
      * @throws EntityNotFoundException when device with given ID does not exists
      */
