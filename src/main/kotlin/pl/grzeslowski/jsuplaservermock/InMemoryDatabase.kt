@@ -1,14 +1,54 @@
 package pl.grzeslowski.jsuplaservermock
 
+import io.swagger.model.Device
 import io.swagger.model.ServerInfo
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import pl.grzeslowski.jsuplaservermock.service.DeviceService
+import pl.grzeslowski.jsuplaservermock.service.EntityNotFoundException
 import pl.grzeslowski.jsuplaservermock.service.ServerService
+import java.util.stream.Collectors
 
 @Service
-class InMemoryDatabase(
-        @Value("\${server.servlet.context-path}") val contextPath: String,
-        @Value("\${server.port}") val port: String) : ServerService {
+class InMemoryDatabase(@Value("\${server.servlet.context-path}") val contextPath: String,
+                       @Value("\${server.port}") val port: String) : DeviceService, ServerService {
+    private val devices: MutableSet<Device> = HashSet()
+
+    fun addDevice(device: Device) {
+        devices.add(device)
+    }
+
+    override fun getDevice(id: Int) =
+            devices.stream()
+                    .filter { device -> device.id == id }
+                    .findAny()
+                    .orElseThrow { EntityNotFoundException(Device::class.java, id) }
+
+    override fun getAllDevices(): MutableList<Device> =
+            devices.stream().collect(Collectors.toList())
+
+    override fun changeDeviceComment(id: Int, comment: String): Device {
+        val device = getDevice(id)
+        device.comment = comment
+        return device
+    }
+
+    override fun changeDeviceEnabled(id: Int, enabled: Boolean): Device {
+        val device = getDevice(id)
+        device.isEnabled = enabled
+        return device
+    }
+
+    override fun changeDeviceLocationId(id: Int, locationId: Int): Device {
+        val device = getDevice(id)
+        device.locationId = locationId
+        return device
+    }
+
+    override fun deleteDevice(id: Int) {
+        devices.remove(getDevice(id))
+    }
+
     override fun getServerInfo(): ServerInfo =
             ServerInfo()
                     .apiVersion("2.3.0")

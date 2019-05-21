@@ -58,7 +58,7 @@ class IoDeviceControllerTest {
     void getIoDevice() {
         // given
         final int id = device.getId();
-        given(deviceService.get(id)).willReturn(device);
+        given(deviceService.getDevice(id)).willReturn(device);
 
         // when
         ResponseEntity<Device> responseEntity = controller.getIoDevice(id, emptyList());
@@ -74,7 +74,7 @@ class IoDeviceControllerTest {
     @DisplayName("should return IO devices")
     void getIoDevices() {
         // given
-        given(deviceService.getAll()).willReturn(devices);
+        given(deviceService.getAllDevices()).willReturn(devices);
 
         // when
         ResponseEntity<List<Device>> responseEntity = controller.getIoDevices(emptyList());

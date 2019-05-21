@@ -5,13 +5,13 @@ import io.swagger.model.Device;
 import java.util.List;
 
 public interface DeviceService {
-    Device get(int id);
+    Device getDevice(int id);
 
-    List<Device> getAll();
+    List<Device> getAllDevices();
 
     Device changeDeviceComment(int id, String comment);
 
-    Device changeDeviceEnabled(int id, Boolean enabled);
+    Device changeDeviceEnabled(int id, boolean enabled);
 
     Device changeDeviceLocationId(int id, int locationId);
 
