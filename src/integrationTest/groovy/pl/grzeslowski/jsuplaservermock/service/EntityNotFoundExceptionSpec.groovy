@@ -22,7 +22,7 @@ class EntityNotFoundExceptionSpec extends Specification {
 
 	def "should return 404 if EntityNotFoundException was thrown"() {
 		given:
-		def request = get("/iodevices/1").header("Authorization", "Bearer $token")
+		def request = get("/iodevices/999").header("Authorization", "Bearer $token")
 
 		expect:
 		mvc.perform(request).andExpect(status().is(404))
