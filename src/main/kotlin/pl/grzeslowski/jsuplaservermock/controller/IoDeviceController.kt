@@ -17,12 +17,12 @@ class IoDeviceController(private val deviceService: DeviceService) : IodevicesAp
         return ResponseEntity(NO_CONTENT)
     }
 
-    override fun getIoDevice(id: Int, include: List<String>) = ResponseEntity.ok(deviceService.getDevice(id))
+    override fun getIoDevice(id: Int, include: List<String>?) = ResponseEntity.ok(deviceService.getDevice(id))
 
-    override fun getIoDeviceChannels(id: Int, include: List<String>): ResponseEntity<Channel> =
+    override fun getIoDeviceChannels(id: Int, include: List<String>?): ResponseEntity<Channel> =
             ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
-    override fun getIoDevices(include: List<String>) = ResponseEntity.ok(deviceService.allDevices)
+    override fun getIoDevices(include: List<String>?) = ResponseEntity.ok(deviceService.allDevices)
 
     override fun updateIoDevice(body: IODeviceUpdateRequest, id: Int): ResponseEntity<Device> {
         var device: Device? = null
