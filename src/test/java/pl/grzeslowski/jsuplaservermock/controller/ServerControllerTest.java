@@ -10,24 +10,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
-import pl.grzeslowski.jsuplaservermock.Database;
+import pl.grzeslowski.jsuplaservermock.service.ServerService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@SuppressWarnings("WeakerAccess")
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(RandomBeansExtension.class)
 class ServerControllerTest {
     @InjectMocks ServerController controller;
 
-    @Mock Database database;
+    @Mock ServerService serverService;
 
     @Test
     @DisplayName("should return server info")
     void getServerInfo(@Random ServerInfo serverInfo) {
         // given
-        given(database.getServerInfo()).willReturn(serverInfo);
+        given(serverService.getServerInfo()).willReturn(serverInfo);
 
         // when
         ResponseEntity<ServerInfo> response = controller.getServerInfo();
