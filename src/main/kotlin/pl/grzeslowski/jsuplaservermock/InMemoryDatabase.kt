@@ -16,7 +16,7 @@ class InMemoryDatabase(@Value("\${server.servlet.context-path}") val contextPath
                        @Value("\${server.port}") val port: String) : DeviceService, ServerService, ChannelService {
     private val devices: MutableSet<Device> = HashSet()
 
-    fun addDevice(device: Device) {
+    override fun addDevice(device: Device) {
         devices.add(device)
     }
 
