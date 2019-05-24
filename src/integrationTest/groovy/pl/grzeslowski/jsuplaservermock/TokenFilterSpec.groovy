@@ -39,6 +39,15 @@ class TokenFilterSpec extends Specification {
 		mvc.perform(request).andExpect(status().isOk())
 	}
 
+	def "should return 200 when authorization succeed (token with suffix)"() {
+		given:
+		def request = get("/channels")
+				.header("Authorization", "Bearer ${token}.aHR0cDovL2xvY2FsaG9zdDo4MDgw")
+
+		expect:
+		mvc.perform(request).andExpect(status().isOk())
+	}
+
 	def "should return 403 when there is wrong authorization token"() {
 		given:
 		def request = get("/channels")
