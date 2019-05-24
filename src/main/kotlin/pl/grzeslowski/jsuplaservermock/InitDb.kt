@@ -1,19 +1,25 @@
 package pl.grzeslowski.jsuplaservermock
 
 import io.swagger.model.*
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Configuration
 import org.threeten.bp.OffsetDateTime
 import pl.grzeslowski.jsuplaservermock.service.DeviceService
 import java.math.BigDecimal
+import java.util.*
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 import java.util.stream.IntStream
-import kotlin.random.Random
+
 
 @Configuration
 open class InitDb(private val deviceService: DeviceService) : CommandLineRunner {
+    private val logger = LoggerFactory.getLogger(InitDb::class.java)
     private val maxId = 999
     private val random = Random(1337)
+    private var updateChannelThreadPool = Executors.newScheduledThreadPool(5)
 
     override fun run(vararg args: String?) {
         listOf(
@@ -240,6 +246,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Thermometer channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setTemperature(BigDecimal(random.nextInt(80) - 30))
+        updateTemperatureSchedule(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.THERMOMETER
@@ -263,6 +270,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Humidity channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setHumidity(BigDecimal(random.nextInt(101)))
+        updateHumiditySchedule(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.HUMIDITYSENSOR
@@ -288,6 +296,8 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.state = ChannelState()
                 .setTemperature(BigDecimal(random.nextInt(80) - 30))
                 .setHumidity(BigDecimal(random.nextInt(101)))
+        updateTemperatureSchedule(channel)
+        updateHumiditySchedule(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.HUMIDITYANDTEMPSENSOR
@@ -397,12 +407,33 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         return channel
     }
 
+    private fun updateTemperatureSchedule(channel: Channel) {
+        schedule {
+            logger.debug("Changing temperature for channel {}", channel.id)
+            channel.state.temperature += BigDecimal(random.nextInt(200) - 100).divide(BigDecimal(10))
+        }
+    }
+
+    private fun updateHumiditySchedule(channel: Channel) {
+        schedule {
+            logger.debug("Changing humidity for channel {}", channel.id)
+            channel.state.temperature += BigDecimal(random.nextInt(200) - 100).divide(BigDecimal(10))
+        }
+    }
+
+    private fun schedule(command: () -> Unit) {
+        val random = Random()
+        val delay: Long = (random.nextInt(10) + 10).toLong()
+        updateChannelThreadPool.scheduleAtFixedRate(command, delay * 2, delay, TimeUnit.SECONDS)
+    }
+
     private fun nextId() = random.nextInt(maxId)
 
-    private fun nextRegDate() = OffsetDateTime.now().minusDays(random.nextLong(100))
+    private fun nextRegDate() = OffsetDateTime.now().minusDays(random.nextInt(100).toLong())
 
     private fun nextGuid(): String {
-        val bytes = random.nextBytes(16)
+        val bytes = ByteArray(16)
+        random.nextBytes(bytes)
         return String.format("%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
                 bytes[0],
                 bytes[1],
