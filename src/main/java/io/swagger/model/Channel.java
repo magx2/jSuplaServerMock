@@ -82,7 +82,7 @@ public class Channel {
     private Boolean connected = null;
 
     @JsonProperty("state")
-    private Object state = null;
+    private ChannelState state = null;
 
     @JsonProperty("supportedFunctions")
     @Valid
@@ -532,7 +532,7 @@ public class Channel {
         this.connected = connected;
     }
 
-    public Channel state(Object state) {
+    public Channel state(ChannelState state) {
         this.state = state;
         return this;
     }
@@ -544,11 +544,11 @@ public class Channel {
      **/
     @ApiModelProperty(example = "{}", value = "The channel's state. The value and the format is dependend on the channel's function. Read more on [Github Wiki](https://github.com/SUPLA/supla-cloud/wiki/Channel-Functions-states).")
 
-    public Object getState() {
+    public ChannelState getState() {
         return state;
     }
 
-    public void setState(Object state) {
+    public void setState(ChannelState state) {
         this.state = state;
     }
 
@@ -608,8 +608,6 @@ public class Channel {
                        Objects.equals(this.functionId, channel.functionId) &&
                        Objects.equals(this.typeId, channel.typeId) &&
                        Objects.equals(this.userIconId, channel.userIconId) &&
-                       Objects.equals(this.iodevice, channel.iodevice) &&
-                       Objects.equals(this.location, channel.location) &&
                        Objects.equals(this.connected, channel.connected) &&
                        Objects.equals(this.state, channel.state) &&
                        Objects.equals(this.supportedFunctions, channel.supportedFunctions);
@@ -617,7 +615,7 @@ public class Channel {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, channelNumber, caption, type, function, param1, param2, param3, textParam1, textParam2, textParam3, altIcon, hidden, inheritedLocation, iodeviceId, locationId, functionId, typeId, userIconId, iodevice, location, connected, state, supportedFunctions);
+        return Objects.hash(id, channelNumber, caption, type, function, param1, param2, param3, textParam1, textParam2, textParam3, altIcon, hidden, inheritedLocation, iodeviceId, locationId, functionId, typeId, userIconId, connected, state, supportedFunctions);
     }
 
     @Override
@@ -644,8 +642,6 @@ public class Channel {
         sb.append("    functionId: ").append(toIndentedString(functionId)).append("\n");
         sb.append("    typeId: ").append(toIndentedString(typeId)).append("\n");
         sb.append("    userIconId: ").append(toIndentedString(userIconId)).append("\n");
-        sb.append("    iodevice: ").append(toIndentedString(iodevice)).append("\n");
-        sb.append("    location: ").append(toIndentedString(location)).append("\n");
         sb.append("    connected: ").append(toIndentedString(connected)).append("\n");
         sb.append("    state: ").append(toIndentedString(state)).append("\n");
         sb.append("    supportedFunctions: ").append(toIndentedString(supportedFunctions)).append("\n");

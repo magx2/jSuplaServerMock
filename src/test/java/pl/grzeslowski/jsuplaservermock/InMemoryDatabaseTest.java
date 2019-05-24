@@ -2,6 +2,7 @@ package pl.grzeslowski.jsuplaservermock;
 
 import io.github.glytching.junit.extension.random.Random;
 import io.github.glytching.junit.extension.random.RandomBeansExtension;
+import io.swagger.model.Channel;
 import io.swagger.model.Device;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,10 +36,20 @@ class InMemoryDatabaseTest {
             "channels.location",
             "schedules.channel",
             "schedules.closestExecutions"}) Device device;
+    @Random(type = Channel.class,
+            excludes = {"iodevice", "location"}) List<Channel> channels;
+    Channel channel;
 
     @BeforeEach
     void setUp() {
         database = new InMemoryDatabase(contextPath, port);
+    }
+
+    @BeforeEach
+    void setUpChannels() {
+        device.channels(channels);
+        channels.forEach(channel -> channel.setIodevice(device));
+        channel = channels.get(0);
     }
 
     @Test
@@ -55,7 +66,7 @@ class InMemoryDatabaseTest {
     }
 
     @Test
-    @DisplayName("should get device from DB")
+    @DisplayName("should throw EntityNotFoundException when cannot find device")
     void getDeviceNotFound(@Random int id) {
         // when
         final ThrowableAssert.ThrowingCallable device = () -> database.getDevice(id);
@@ -179,12 +190,48 @@ class InMemoryDatabaseTest {
     }
 
     @Test
-    @DisplayName("should hrow EntityNotFoundException when cannot find device to delete")
+    @DisplayName("should throw EntityNotFoundException when cannot find device to delete")
     public void deleteDeviceEntityNotFound() {
         // when
         final ThrowableAssert.ThrowingCallable delete = () -> database.deleteDevice(device.getId());
 
         // then
         assertThatThrownBy(delete).isInstanceOf(EntityNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("should get channel from DB")
+    void getChannel() {
+        // given
+        database.addDevice(device);
+
+        // when
+        Channel channelFromDb = database.getChannel(this.channel.getId());
+
+        // then
+        assertThat(channelFromDb).isEqualTo(channel);
+    }
+
+    @Test
+    @DisplayName("should throw EntityNotFoundException when cannot find channel")
+    void getChannel(@Random int id) {
+        // when
+        final ThrowableAssert.ThrowingCallable device = () -> database.getChannel(id);
+
+        // then
+        assertThatThrownBy(device).isInstanceOf(EntityNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("should get all channels from DB")
+    void getAllChannels() {
+        // given
+        database.addDevice(device);
+
+        // when
+        List<Channel> channelsFromDb = database.getAllChannels();
+
+        // then
+        assertThat(channelsFromDb).containsExactlyInAnyOrder(channels.toArray(new Channel[0]));
     }
 }
