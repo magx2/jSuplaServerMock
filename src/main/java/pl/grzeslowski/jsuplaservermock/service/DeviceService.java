@@ -5,6 +5,14 @@ import io.swagger.model.Device;
 import java.util.List;
 
 public interface DeviceService {
+
+    /**
+     * Adds device to DB
+     *
+     * @param device to add
+     */
+    void addDevice(Device device);
+
     /**
      * Finds device with given ID.
      *

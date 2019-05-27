@@ -46,7 +46,7 @@ class TokenFilter implements Filter {
             chain.doFilter(servletRequest, servletResponse);
             return;
         }
-        final String authorizationHeader = request.getHeader("Authorization");
+        final String authorizationHeader = findAuthorization(request);
         if (authorizationHeader == null) {
             logger.warn("There is no authorization header!");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -66,6 +66,15 @@ class TokenFilter implements Filter {
             logger.warn("Wrong token `{}` during authorization!", requestToken);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getOutputStream().write(("Wrong token `" + requestToken + "` during authorization!").getBytes(Charset.forName("UTF-8")));
+        }
+    }
+
+    private String findAuthorization(final HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+        if (authorization != null) {
+            return authorization.split("\\.")[0];
+        } else {
+            return null;
         }
     }
 

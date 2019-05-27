@@ -60,10 +60,25 @@ class TokenFilterTest {
     }
 
     @Test
-    @DisplayName("should continue chain filter if token is orrect")
+    @DisplayName("should continue chain filter if token is correct")
     void correctToken() throws IOException, ServletException {
         // given
         given(request.getHeader("Authorization")).willReturn("Bearer " + token);
+
+        // when
+        filter.doFilter(request, response, chain);
+
+        //then
+        verify(chain).doFilter(request, response);
+        verifyZeroInteractions(response);
+        verifyZeroInteractions(servletOutputStream);
+    }
+
+    @Test
+    @DisplayName("should continue chain filter if token with suffix is correct")
+    void correctTokenWithSuffix(@Random String suffix) throws IOException, ServletException {
+        // given
+        given(request.getHeader("Authorization")).willReturn("Bearer " + token + "." + suffix);
 
         // when
         filter.doFilter(request, response, chain);
