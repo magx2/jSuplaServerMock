@@ -17,6 +17,7 @@ class ChannelController(val channelService: ChannelService) : ChannelsApi {
     private val logger = LoggerFactory.getLogger(ChannelController::class.java)
     override fun executeAction(body: ChannelExecuteActionRequest, id: Int): ResponseEntity<Void> {
         val channel = channelService.getChannel(id)
+        logger.info("Changing state for `{}` to:\n{}", channel.id, body)
         return when (body.action) {
             ChannelFunctionActionEnum.OPEN -> actionOpenOrClose(channel, true)
             ChannelFunctionActionEnum.CLOSE -> actionOpenOrClose(channel, false)
