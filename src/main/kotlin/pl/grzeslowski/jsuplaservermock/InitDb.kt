@@ -187,7 +187,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.id = nextId()
         channel.caption = "RGB channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setColor("0xFF0000").setColorBrightness(100)
+        channel.state = ChannelState().setColor("0x00FF00").setColorBrightness(100)
         channel.isHidden = false
 
         channel.type = ChannelType()
@@ -208,7 +208,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.id = nextId()
         channel.caption = "Dimmer and RGB channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setColor("0xFF0000").setColorBrightness(100).setBrightness(100)
+        channel.state = ChannelState().setColor("0x00FF00").setColorBrightness(100).setBrightness(100)
         channel.isHidden = false
 
         channel.type = ChannelType()
