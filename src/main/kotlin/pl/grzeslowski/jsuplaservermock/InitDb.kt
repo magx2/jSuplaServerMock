@@ -146,6 +146,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Light channel type"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setOn(random.nextBoolean())
+        channel.isHidden = false
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
@@ -166,6 +167,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Power channel type"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setOn(random.nextBoolean())
+        channel.isHidden = false
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
@@ -186,6 +188,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "RGB channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setColor("0xFF0000").setColorBrightness(100)
+        channel.isHidden = false
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RGBLEDCONTROLLER
@@ -206,6 +209,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Dimmer and RGB channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setColor("0xFF0000").setColorBrightness(100).setBrightness(100)
+        channel.isHidden = false
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.DIMMERANDRGBLED
@@ -226,6 +230,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Dimmer and RGB channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setBrightness(random.nextInt(101))
+        channel.isHidden = false
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.DIMMER
@@ -246,6 +251,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Thermometer channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setTemperature(BigDecimal(random.nextInt(80) - 30))
+        channel.isHidden = false
         updateTemperatureSchedule(channel)
 
         channel.type = ChannelType()
@@ -270,6 +276,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Humidity channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setHumidity(BigDecimal(random.nextInt(101)))
+        channel.isHidden = false
         updateHumiditySchedule(channel)
 
         channel.type = ChannelType()
@@ -296,6 +303,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.state = ChannelState()
                 .setTemperature(BigDecimal(random.nextInt(80) - 30))
                 .setHumidity(BigDecimal(random.nextInt(101)))
+        channel.isHidden = false
         updateTemperatureSchedule(channel)
         updateHumiditySchedule(channel)
 
@@ -322,6 +330,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Roller shutter channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setShut(random.nextInt(101))
+        channel.isHidden = false
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
@@ -345,6 +354,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Roller shutter channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setHi(random.nextBoolean())
+        channel.isHidden = false
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.SENSORNC
@@ -368,6 +378,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Gate channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setHi(random.nextBoolean())
+        channel.isHidden = false
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
@@ -391,6 +402,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Gate channel"
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setHi(random.nextBoolean())
+        channel.isHidden = false
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.SENSORNO
