@@ -25,17 +25,17 @@ java -jar jsupla-mock-server-<VERSION>.jar
 
 ```
 
-After about 30 seconds server should be started. To test it you can send test request to `http://localhost:8080/api/2.3.0/server-info`
+After about 30 seconds server should be started. To test it you can send test request to `http://localhost:9009/api/2.3.0/server-info`
 
 ```bash
-curl -X GET "http://localhost:8080/api/v2.3.0/server-info" -H  "accept: application/json"
+curl -X GET "http://localhost:9009/api/v2.3.0/server-info" -H  "accept: application/json"
 ```
 
 As a response you should get something like this (not formatted):
 
 ```json
 {
-  "address": "http://localhost:8080/api/v2.3.0",
+  "address": "http://localhost:9009/api/v2.3.0",
   "time": null,
   "timezone": null,
   "authenticated": null,
@@ -54,7 +54,9 @@ For more api calls you can check [Supla Swagger Hub](https://app.swaggerhub.com/
 
 Most of calls need to be authorized with oAuth token. The default token is `MzFhYTNiZTAwODg5M2E0NDE3OGUwNWE5ZjYzZWQ2YzllZGFiYWRmNDQwNDBlNmZhZGEzN2I3NTJiOWM2ZWEyZg`. You can change it in `/src/main/resources/application.yml` or during startup via Spring Boot properties (`--jsupla.token=your_token`).
 
-_Note: Tokens generated from Supla Cloud are made from 2 parts that are separated with dot. First part is plain OAuth token. Second part is server URL encoded in Base64. In this implementation you don't need to pass anything as server URL, but if you will pass it, it will be trimmed._    
+_Note 1: Tokens generated from Supla Cloud are made from 2 parts that are separated with dot. First part is plain OAuth token. Second part is server URL encoded in Base64. In this implementation you don't need to pass anything as server URL, but if you will pass it, it will be trimmed._    
+
+_Note 2: If you want to use token that will point you to `http://localhost:9090` you can use this token `MzFhYTNiZTAwODg5M2E0NDE3OGUwNWE5ZjYzZWQ2YzllZGFiYWRmNDQwNDBlNmZhZGEzN2I3NTJiOWM2ZWEyZg.aHR0cDovL2xvY2FsaG9zdDo5MDkw`_
 
 # Gradle & Maven
 
