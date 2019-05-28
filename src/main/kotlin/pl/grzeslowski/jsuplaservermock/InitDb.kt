@@ -309,12 +309,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.HUMIDITYANDTEMPSENSOR
-        channel.type.caption = "Humidity channel #${channel.id}"
+        channel.type.caption = "Thermometer and Humidity channel #${channel.id}"
         channel.type.isOutput = true
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.HUMIDITYANDTEMPERATURE
-        channel.function.caption = "Humidity channel #${channel.id}"
+        channel.function.caption = "Thermometer and Humidity channel #${channel.id}"
 
         // https://github.com/SUPLA/supla-cloud/wiki/Channel-Functions-parameters
         channel.param2 = random.nextInt(2000) - 1000
