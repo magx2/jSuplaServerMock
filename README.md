@@ -25,17 +25,17 @@ java -jar jsupla-mock-server-<VERSION>.jar
 
 ```
 
-After about 30 seconds server should be started. To test it you can send test request to `http://localhost:9009/api/2.3.0/server-info`
+After about 30 seconds server should be started. To test it you can send test request to `http://localhost:9090/api/2.3.0/server-info`
 
 ```bash
-curl -X GET "http://localhost:9009/api/v2.3.0/server-info" -H  "accept: application/json"
+curl -X GET "http://localhost:9090/api/v2.3.0/server-info" -H  "accept: application/json"
 ```
 
 As a response you should get something like this (not formatted):
 
 ```json
 {
-  "address": "http://localhost:9009/api/v2.3.0",
+  "address": "http://localhost:9090/api/v2.3.0",
   "time": null,
   "timezone": null,
   "authenticated": null,
