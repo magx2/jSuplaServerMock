@@ -151,7 +151,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
         channel.type.caption = "Light channel #${channel.id}"
-        channel.type.isOutput = false
+        channel.type.isOutput = true
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.LIGHTSWITCH
@@ -172,7 +172,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
         channel.type.caption = "Power channel #${channel.id}"
-        channel.type.isOutput = false
+        channel.type.isOutput = true
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.POWERSWITCH
