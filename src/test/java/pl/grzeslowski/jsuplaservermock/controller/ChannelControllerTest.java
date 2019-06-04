@@ -257,6 +257,8 @@ class ChannelControllerTest {
         given(channelService.getChannel(channel.getId())).willReturn(channel);
         channel.getFunction().name(CONTROLLINGTHEDOORLOCK);
         ChannelExecuteActionRequest request = new ChannelExecuteActionRequest().action(OPEN);
+        channel.setParam2(null);
+        channel.setParam3(null);
 
         // when
         ResponseEntity<Void> response = controller.executeAction(request, channel.getId());
@@ -291,6 +293,8 @@ class ChannelControllerTest {
     void executeActionClose() {
         // given
         given(channelService.getChannel(channel.getId())).willReturn(channel);
+        channel.setParam2(null);
+        channel.setParam3(null);
         channel.getFunction().name(CONTROLLINGTHEDOORLOCK);
         ChannelExecuteActionRequest request = new ChannelExecuteActionRequest().action(CLOSE);
 
