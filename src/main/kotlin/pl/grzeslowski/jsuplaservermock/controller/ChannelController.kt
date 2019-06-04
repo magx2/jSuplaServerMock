@@ -40,7 +40,17 @@ class ChannelController(val channelService: ChannelService) : ChannelsApi {
             return ResponseEntity(BAD_REQUEST)
         }
         channel.state.hi = state
+        if (channel.param2 != null) {
+            negateHiState(channelService.getChannel(channel.param2).state)
+        }
+        if (channel.param3 != null) {
+            negateHiState(channelService.getChannel(channel.param3).state)
+        }
         return ok().build()
+    }
+
+    private fun negateHiState(state: ChannelState) {
+        state.hi = state.hi.not()
     }
 
     private fun actionRevealOrShut(channel: Channel, shut: Int): ResponseEntity<Void> {
