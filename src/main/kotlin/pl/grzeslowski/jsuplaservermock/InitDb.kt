@@ -407,7 +407,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.SENSORNO
         channel.type.caption = "Gate channel #${channel.id}"
-        channel.type.isOutput = true
+        channel.type.isOutput = false
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.OPENINGSENSOR_GARAGEDOOR
