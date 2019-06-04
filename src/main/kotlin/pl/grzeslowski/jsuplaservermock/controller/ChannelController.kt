@@ -23,6 +23,7 @@ class ChannelController(val channelService: ChannelService) : ChannelsApi {
             ChannelFunctionActionEnum.CLOSE -> actionOpenOrClose(channel, false)
             ChannelFunctionActionEnum.SHUT -> actionRevealOrShut(channel, body.percentage ?: 100)
             ChannelFunctionActionEnum.REVEAL -> actionRevealOrShut(channel, 100 - (body.percentage ?: 100))
+            ChannelFunctionActionEnum.REVEAL_PARTIALLY -> actionRevealOrShut(channel, body.percentage)
             ChannelFunctionActionEnum.TURN_ON -> actionTurnOnOrTurnOff(channel, true)
             ChannelFunctionActionEnum.TURN_OFF -> actionTurnOnOrTurnOff(channel, false)
             ChannelFunctionActionEnum.OPEN_CLOSE -> actionOpenClose(channel)
