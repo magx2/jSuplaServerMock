@@ -12,6 +12,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 import java.util.stream.IntStream
+import kotlin.collections.ArrayList
 
 
 @Configuration
@@ -22,32 +23,45 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     private var updateChannelThreadPool = Executors.newScheduledThreadPool(5)
 
     override fun run(vararg args: String?) {
+        val livingRoomLocation = buildLocation("Living Room")
+        val bathroomLocation = buildLocation("Bathroom")
         listOf(
-                buildLightDevice("ROW-01", 1),
+                buildLightDevice("ROW-01", 1).location(livingRoomLocation),
                 buildLightDevice("ROW-02", 2),
 
                 //power
-                buildPowerDevice("Power Device", 1),
-                buildPowerDevice("Power Device", 2),
-                buildPowerDevice("Power Device", 3),
+                buildPowerDevice("Power Device", 1).location(livingRoomLocation),
+                buildPowerDevice("Power Device", 2).location(bathroomLocation),
+                buildPowerDevice("Power Device", 3).location(bathroomLocation),
 
                 // rgb(w) / dimmer
-                buildRgbDevice("RGB Controller"),
-                buildDimmerAndRgbDevice("Dimmer and RGB"),
-                buildDimmerDevice("Dimmer"),
+                buildRgbDevice("RGB Controller").location(livingRoomLocation),
+                buildDimmerAndRgbDevice("Dimmer and RGB").location(bathroomLocation),
+                buildDimmerDevice("Dimmer").location(livingRoomLocation),
 
                 // thermometer / humidity
-                buildThermometerDevice("Balcony thermometer"),
-                buildHumidityDevice("Bathroom humidity"),
-                buildThermometerAndHumidityDevice("Bedroom thermometer and humidity"),
+                buildThermometerDevice("Balcony thermometer").location(livingRoomLocation),
+                buildHumidityDevice("Bathroom humidity").location(bathroomLocation),
+                buildThermometerAndHumidityDevice("Bedroom thermometer and humidity").location(livingRoomLocation),
 
                 // roller shutter
                 buldRollerShutterDevice("Roller shutter"),
 
                 // gate and garage door
-                buildGateDevice("SBW-01")
+                buildGateDevice("SBW-01").location(bathroomLocation)
         ).forEach { deviceService.addDevice(it) }
     }
+
+    // ---------------
+    // build locations
+    // ---------------
+
+    private fun buildLocation(caption: String): Location =
+            Location()
+                    .id(nextId())
+                    .caption(caption)
+                    .password("password:$caption")
+                    .iodevices(ArrayList())
 
     // -------------
     // build devices

@@ -492,7 +492,7 @@ public class Device {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, enabled, comment, regDate, regIpv4, lastConnected, lastIpv4, softwareVersion, gUIDString, locationId, originalLocationId, channelsIds, connected, location, originalLocation, channels, schedules);
+        return Objects.hash(id, name, enabled, comment, regDate, regIpv4, lastConnected, lastIpv4, softwareVersion, gUIDString, locationId, originalLocationId, channelsIds, connected, originalLocation, channels, schedules);
     }
 
     @Override
@@ -514,7 +514,6 @@ public class Device {
         sb.append("    originalLocationId: ").append(toIndentedString(originalLocationId)).append("\n");
         sb.append("    channelsIds: ").append(toIndentedString(channelsIds)).append("\n");
         sb.append("    connected: ").append(toIndentedString(connected)).append("\n");
-        sb.append("    location: ").append(toIndentedString(location)).append("\n");
         sb.append("    originalLocation: ").append(toIndentedString(originalLocation)).append("\n");
         sb.append("    channels: ").append(toIndentedString(channels)).append("\n");
         sb.append("    schedules: ").append(toIndentedString(schedules)).append("\n");
