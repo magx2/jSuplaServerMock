@@ -2,21 +2,27 @@ package pl.grzeslowski.jsuplaservermock
 
 import io.swagger.model.Channel
 import io.swagger.model.Device
+import io.swagger.model.Location
 import io.swagger.model.ServerInfo
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import pl.grzeslowski.jsuplaservermock.service.ChannelService
-import pl.grzeslowski.jsuplaservermock.service.DeviceService
-import pl.grzeslowski.jsuplaservermock.service.EntityNotFoundException
-import pl.grzeslowski.jsuplaservermock.service.ServerService
+import pl.grzeslowski.jsuplaservermock.service.*
 import java.util.stream.Collectors
 
 @Service
 class InMemoryDatabase(@Value("\${server.servlet.context-path}") val contextPath: String,
-                       @Value("\${server.port}") val port: String) : DeviceService, ServerService, ChannelService {
+                       @Value("\${server.port}") val port: String) : DeviceService, ServerService, ChannelService, LocationService {
     private val devices: MutableSet<Device> = HashSet()
+    private val locations: MutableMap<Location, MutableList<Device>> = HashMap()
 
     override fun addDevice(device: Device) {
+        val location = device.location
+        if (location != null) {
+            locations.putIfAbsent(location, ArrayList())
+            locations[location]!!.add(device)
+            location.iodevices = null
+        }
+        device.location = null
         devices.add(device)
     }
 
@@ -70,5 +76,33 @@ class InMemoryDatabase(@Value("\${server.servlet.context-path}") val contextPath
             devices.stream()
                     .map { it.channels }
                     .flatMap { it.stream() }
+                    .collect(Collectors.toList())
+
+    override fun addLocation(location: Location) {
+        locations[location] = ArrayList()
+    }
+
+    override fun deleteLocation(id: Int) {
+        val it = locations.iterator()
+        while (it.hasNext()) {
+            val (location, _) = it.next()
+            if (location.id == id) {
+                it.remove()
+            }
+        }
+    }
+
+    override fun getLocation(id: Int): Location =
+            locations.entries
+                    .map { it.key }
+                    .stream()
+                    .filter { location -> location.id == id }
+                    .findAny()
+                    .orElseThrow { EntityNotFoundException(Location::class.java, id) }
+
+    override fun getLocations(): MutableList<Location> =
+            locations.entries
+                    .map { (key, value) -> key.iodevices = value; key }
+                    .stream()
                     .collect(Collectors.toList())
 }
