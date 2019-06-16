@@ -344,7 +344,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.caption = "Roller shutter channel"
         channel.channelNumber = channelNumber
         val shut = random.nextInt(101)
-        channel.state = ChannelState().setConnected(true).setShut(shut).setHi(shut != 100)
+        channel.state = ChannelState().setConnected(true).setShut(shut).setHi(shut != 100).setCalibrating(false)
         channel.isHidden = false
 
         channel.type = ChannelType()
