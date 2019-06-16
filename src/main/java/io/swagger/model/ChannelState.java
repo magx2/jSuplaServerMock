@@ -33,6 +33,8 @@ public class ChannelState {
     private BigDecimal depth;
     @JsonProperty("distance")
     private BigDecimal distance;
+    @JsonProperty("connected")
+    private Boolean connected;
 
     public ChannelState() {
     }
@@ -142,6 +144,15 @@ public class ChannelState {
 
     public ChannelState setDistance(final BigDecimal distance) {
         this.distance = distance;
+        return this;
+    }
+
+    public Boolean getConnected() {
+        return connected;
+    }
+
+    public ChannelState setConnected(final Boolean connected) {
+        this.connected = connected;
         return this;
     }
 

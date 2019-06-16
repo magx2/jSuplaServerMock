@@ -154,12 +154,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     // --------------
 
     private fun buildLightChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Light channel type"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setOn(random.nextBoolean())
+        channel.state = ChannelState().setConnected(true).setOn(random.nextBoolean())
         channel.isHidden = false
 
         channel.type = ChannelType()
@@ -175,12 +175,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildPowerChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Power channel type"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setOn(random.nextBoolean())
+        channel.state = ChannelState().setConnected(true).setOn(random.nextBoolean())
         channel.isHidden = false
 
         channel.type = ChannelType()
@@ -196,12 +196,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildRgbChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "RGB channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setColor("0x00FF00").setColorBrightness(100)
+        channel.state = ChannelState().setConnected(true).setColor("0x00FF00").setColorBrightness(100)
         channel.isHidden = false
 
         channel.type = ChannelType()
@@ -217,12 +217,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildDimmerAndRgbChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Dimmer and RGB channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setColor("0x00FF00").setColorBrightness(100).setBrightness(100)
+        channel.state = ChannelState().setConnected(true).setColor("0x00FF00").setColorBrightness(100).setBrightness(100)
         channel.isHidden = false
 
         channel.type = ChannelType()
@@ -238,12 +238,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildDimmerChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Dimmer and RGB channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setBrightness(random.nextInt(101))
+        channel.state = ChannelState().setConnected(true).setBrightness(random.nextInt(101))
         channel.isHidden = false
 
         channel.type = ChannelType()
@@ -259,12 +259,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildThermometerChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Thermometer channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setTemperature(BigDecimal(random.nextInt(80) - 30))
+        channel.state = ChannelState().setConnected(true).setTemperature(BigDecimal(random.nextInt(80) - 30))
         channel.isHidden = false
         updateTemperatureSchedule(channel)
 
@@ -284,12 +284,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildHumidityChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Humidity channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setHumidity(BigDecimal(random.nextInt(101)))
+        channel.state = ChannelState().setConnected(true).setHumidity(BigDecimal(random.nextInt(101)))
         channel.isHidden = false
         updateHumiditySchedule(channel)
 
@@ -309,12 +309,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildThermometerAndHumidityChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Humidity channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState()
+        channel.state = ChannelState().setConnected(true)
                 .setTemperature(BigDecimal(random.nextInt(80) - 30))
                 .setHumidity(BigDecimal(random.nextInt(101)))
         channel.isHidden = false
@@ -338,12 +338,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildRollerShutterChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Roller shutter channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setShut(random.nextInt(101))
+        channel.state = ChannelState().setConnected(true).setShut(random.nextInt(101))
         channel.isHidden = false
 
         channel.type = ChannelType()
@@ -362,12 +362,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildRollerShutterSensorChannel(channelNumber: Int, rollerShutterId: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Roller shutter channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setHi(random.nextBoolean())
+        channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean())
         channel.isHidden = false
 
         channel.type = ChannelType()
@@ -386,12 +386,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildGateChannel(channelNumber: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Gate channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setHi(random.nextBoolean())
+        channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean())
         channel.isHidden = false
 
         channel.type = ChannelType()
@@ -410,12 +410,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun buildGateSensorChannel(channelNumber: Int, gateChannelId: Int): Channel {
-        val channel = Channel()
+        val channel = Channel().connected(true)
 
         channel.id = nextId()
         channel.caption = "Gate channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setHi(random.nextBoolean())
+        channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean())
         channel.isHidden = false
 
         channel.type = ChannelType()
