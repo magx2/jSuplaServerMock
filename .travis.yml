@@ -12,3 +12,4 @@ matrix:
 branches:
   except:
   - /^v\d/
+dist: trusty
