@@ -1,5 +1,6 @@
 package pl.grzeslowski.jsuplaservermock.service;
 
+import io.swagger.model.Channel;
 import io.swagger.model.Device;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public interface DeviceService {
      * @throws EntityNotFoundException when device with given ID does not exists
      */
     Device getDevice(int id);
+
+    List<Channel> getChannelsForDevice(int id);
 
     /**
      * Finds all devices.

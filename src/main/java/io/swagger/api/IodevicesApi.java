@@ -59,7 +59,7 @@ public interface IodevicesApi {
     @RequestMapping(value = "/iodevices/{id}/channels",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<Channel> getIoDeviceChannels(@ApiParam(value = "", required = true) @PathVariable("id") Integer id, @ApiParam(value = "Specify what extra fields to include in the response.", allowableValues = "iodevice, location") @Valid @RequestParam(value = "include", required = false) List<String> include);
+    ResponseEntity<List<Channel>> getIoDeviceChannels(@ApiParam(value = "", required = true) @PathVariable("id") Integer id, @ApiParam(value = "Specify what extra fields to include in the response.", allowableValues = "iodevice, location") @Valid @RequestParam(value = "include", required = false) List<String> include);
 
     @ApiOperation(value = "Get IO Devices", nickname = "getIoDevices", notes = "", response = Device.class, responseContainer = "List", authorizations = {
             @Authorization(value = "BearerAuth"),

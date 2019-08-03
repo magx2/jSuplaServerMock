@@ -4,7 +4,6 @@ import io.swagger.api.IodevicesApi
 import io.swagger.model.Channel
 import io.swagger.model.Device
 import io.swagger.model.IODeviceUpdateRequest
-import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
@@ -19,8 +18,8 @@ class IoDeviceController(private val deviceService: DeviceService) : IodevicesAp
 
     override fun getIoDevice(id: Int, include: List<String>?) = ResponseEntity.ok(deviceService.getDevice(id))
 
-    override fun getIoDeviceChannels(id: Int, include: List<String>?): ResponseEntity<Channel> =
-            ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    override fun getIoDeviceChannels(id: Int, include: List<String>?): ResponseEntity<List<Channel>> =
+            ResponseEntity.ok(deviceService.getChannelsForDevice(id))
 
     override fun getIoDevices(include: List<String>?) = ResponseEntity.ok(deviceService.allDevices)
 

@@ -21,7 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @SuppressWarnings("WeakerAccess")
@@ -184,13 +183,17 @@ class IoDeviceControllerTest {
     @Test
     @DisplayName("should return unimplemented for device channels")
     void getIoDeviceChannels() {
+        // given
+        given(deviceService.getChannelsForDevice(device.getId())).willReturn(device.getChannels());
+
         // when
-        final ResponseEntity<Channel> responseEntity = controller.getIoDeviceChannels(device.getId(), emptyList());
+        final ResponseEntity<List<Channel>> responseEntity = controller.getIoDeviceChannels(device.getId(), emptyList());
 
         // then
-        assertThat(responseEntity.getStatusCode())
+        assertThat(responseEntity.getStatusCode().is2xxSuccessful())
                 .as(responseEntity.toString())
-                .isEqualTo(NOT_IMPLEMENTED);
+                .isTrue();
+        assertThat(responseEntity.getBody()).isEqualTo(device.getChannels());
     }
 
     @Test

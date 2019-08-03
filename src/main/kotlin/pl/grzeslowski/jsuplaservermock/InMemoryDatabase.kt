@@ -32,6 +32,8 @@ class InMemoryDatabase(@Value("\${server.servlet.context-path}") val contextPath
                     .findAny()
                     .orElseThrow { EntityNotFoundException(Device::class.java, id) }
 
+    override fun getChannelsForDevice(id: Int): MutableList<Channel> = getDevice(id).channels
+
     override fun getAllDevices(): MutableList<Device> =
             devices.stream().collect(Collectors.toList())
 
