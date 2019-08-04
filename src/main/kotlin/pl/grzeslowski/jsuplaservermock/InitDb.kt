@@ -493,14 +493,22 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     private fun updateTemperatureSchedule(channel: Channel) {
         schedule {
             logger.info("Changing temperature for channel {}", channel.id)
-            channel.state.temperature = nearByNumber(channel.state.temperature, BigDecimal(-100), BigDecimal(100))
+            val adjustment = BigDecimal(channel.param2).divide(BigDecimal(100), CEILING)
+            channel.state.temperature = nearByNumber(
+                    channel.state.temperature,
+                    BigDecimal(-100).subtract(adjustment),
+                    BigDecimal(100).subtract(adjustment))
         }
     }
 
     private fun updateHumiditySchedule(channel: Channel) {
         schedule {
             logger.info("Changing humidity for channel {}", channel.id)
-            channel.state.humidity = nearByNumber(channel.state.humidity, BigDecimal.ZERO, BigDecimal(100))
+            val adjustment = BigDecimal(channel.param3).divide(BigDecimal(100), CEILING)
+            channel.state.humidity = nearByNumber(
+                    channel.state.humidity,
+                    BigDecimal.ZERO.subtract(adjustment),
+                    BigDecimal(100).subtract(adjustment))
         }
     }
 
