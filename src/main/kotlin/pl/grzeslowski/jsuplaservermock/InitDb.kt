@@ -593,7 +593,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         val minus = if (random.nextBoolean()) 1.0 else -1.0
         val delta = number * random.nextDouble()
         val newNumber = number - delta * minus
-        return max(max, min(min, newNumber))
+        return max(min, min(max, newNumber))
     }
 
     private fun nearByNumber(number: Int, max: Int, min: Int): Int =
