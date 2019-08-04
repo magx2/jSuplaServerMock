@@ -10,6 +10,7 @@ import java.lang.Math.max
 import java.lang.Math.min
 import java.lang.String.format
 import java.math.BigDecimal
+import java.math.RoundingMode.CEILING
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -599,7 +600,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
             nearByNumber(number.toDouble(), max.toDouble(), min.toDouble()).toInt()
 
     private fun nearByNumber(number: BigDecimal, max: BigDecimal, min: BigDecimal): BigDecimal =
-            BigDecimal(nearByNumber(number.toDouble(), max.toDouble(), min.toDouble()))
+            BigDecimal(nearByNumber(number.toDouble(), max.toDouble(), min.toDouble())).setScale(2, CEILING)
 
     private fun toHex(x: Int): String {
         val scale = x / 100.0
