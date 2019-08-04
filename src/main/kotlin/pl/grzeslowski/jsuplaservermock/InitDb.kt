@@ -597,9 +597,17 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         return sb.toString()
     }
 
-    private fun nearByNumber(number: Double, max: Double, min: Double): Double {
-        val minus = if (random.nextBoolean()) 1.0 else -1.0
-        val delta = number * random.nextDouble()
+    private fun nearByNumber(number: Double, min: Double, max: Double): Double {
+        val minus = when {
+            number == min -> -1.0
+            number == max -> 1.0
+            else -> if (random.nextBoolean()) 1.0 else -1.0
+        }
+        val delta = if (number != 0.0) {
+            number * random.nextDouble()
+        } else {
+            min + (max - min) * random.nextDouble()
+        }
         val newNumber = number - delta * minus
         return max(min, min(max, newNumber))
     }
@@ -610,9 +618,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     private fun nearByNumber(number: BigDecimal, max: BigDecimal, min: BigDecimal): BigDecimal =
             BigDecimal(nearByNumber(number.toDouble(), max.toDouble(), min.toDouble())).setScale(2, CEILING)
 
-    private fun toHex(x: Int): String {
-        val scale = x / 100.0
-        val value = (scale * 255).toInt()
+    private fun toHex(value: Int): String {
         val addZeroPrefix = value < 16
         val hex = Integer.toHexString(value).toUpperCase()
         return if (addZeroPrefix) "0$hex" else hex
