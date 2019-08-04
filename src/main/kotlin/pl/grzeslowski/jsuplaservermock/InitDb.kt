@@ -6,6 +6,9 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Configuration
 import org.threeten.bp.OffsetDateTime
 import pl.grzeslowski.jsuplaservermock.service.DeviceService
+import java.lang.Math.max
+import java.lang.Math.min
+import java.lang.String.format
 import java.math.BigDecimal
 import java.util.*
 import java.util.concurrent.Executors
@@ -49,7 +52,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
 
                 // gate and garage door
                 buildGateDevice("SBW-01").location(bathroomLocation)
-        ).forEach { deviceService.addDevice(it) }
+        ).forEach {
+            deviceService.addDevice(it)
+            updateEnabled(it)
+            updateName(it)
+            updateComment(it)
+        }
     }
 
     // ---------------
@@ -161,6 +169,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setConnected(true).setOn(random.nextBoolean())
         channel.isHidden = false
+        updateOnOffState(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
@@ -182,6 +193,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setConnected(true).setOn(random.nextBoolean())
         channel.isHidden = false
+        updateOnOffState(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
@@ -203,6 +217,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setConnected(true).setColor("0x00FF00").setColorBrightness(100)
         channel.isHidden = false
+        updateRgbSchedule(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RGBLEDCONTROLLER
@@ -224,6 +241,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setConnected(true).setColor("0x00FF00").setColorBrightness(100).setBrightness(100)
         channel.isHidden = false
+        updateRgbSchedule(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.DIMMERANDRGBLED
@@ -245,6 +265,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setConnected(true).setBrightness(random.nextInt(101))
         channel.isHidden = false
+        updateRgbSchedule(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.DIMMER
@@ -267,6 +290,8 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.state = ChannelState().setConnected(true).setTemperature(BigDecimal(random.nextInt(80) - 30))
         channel.isHidden = false
         updateTemperatureSchedule(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.THERMOMETER
@@ -292,6 +317,8 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.state = ChannelState().setConnected(true).setHumidity(BigDecimal(random.nextInt(101)))
         channel.isHidden = false
         updateHumiditySchedule(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.HUMIDITYSENSOR
@@ -320,6 +347,8 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.isHidden = false
         updateTemperatureSchedule(channel)
         updateHumiditySchedule(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.HUMIDITYANDTEMPSENSOR
@@ -346,6 +375,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         val shut = random.nextInt(101)
         channel.state = ChannelState().setConnected(true).setShut(shut).setHi(shut != 100).setCalibrating(false)
         channel.isHidden = false
+        updateRollerShutterSchedule(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
@@ -370,6 +402,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean())
         channel.isHidden = false
+        updateOnOffState(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.SENSORNC
@@ -394,6 +429,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean())
         channel.isHidden = false
+        updateOnOffState(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
@@ -418,6 +456,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean())
         channel.isHidden = false
+        updateOnOffState(channel)
+        updateConnected(channel)
+        updateCaption(channel)
 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.SENSORNO
@@ -434,18 +475,138 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         return channel
     }
 
+    private fun updateOnOffState(channel: Channel) {
+        schedule {
+            logger.info("Changing on/off for channel {}", channel.id)
+            val on = channel.state.on
+            if (on != null) {
+                channel.state.on = random.nextBoolean()
+            }
+            val hi = channel.state.hi
+            if (hi != null) {
+                channel.state.hi = random.nextBoolean()
+            }
+        }
+    }
+
     private fun updateTemperatureSchedule(channel: Channel) {
         schedule {
-            logger.debug("Changing temperature for channel {}", channel.id)
-            channel.state.temperature += BigDecimal(random.nextInt(200) - 100).divide(BigDecimal(10))
+            logger.info("Changing temperature for channel {}", channel.id)
+            channel.state.temperature = nearByNumber(channel.state.temperature, BigDecimal(-100), BigDecimal(100))
         }
     }
 
     private fun updateHumiditySchedule(channel: Channel) {
         schedule {
-            logger.debug("Changing humidity for channel {}", channel.id)
-            channel.state.temperature += BigDecimal(random.nextInt(200) - 100).divide(BigDecimal(10))
+            logger.info("Changing humidity for channel {}", channel.id)
+            channel.state.humidity = nearByNumber(channel.state.humidity, BigDecimal.ZERO, BigDecimal(100))
         }
+    }
+
+    private fun updateRgbSchedule(channel: Channel) {
+        schedule {
+            logger.info("Changing RGB+brightness for channel {}", channel.id)
+            val red = toHex(random.nextInt(256))
+            val green = toHex(random.nextInt(256))
+            val blue = toHex(random.nextInt(256))
+            if (channel.state.color != null) {
+                channel.state.color = format("0x%s%s%s", red, green, blue)
+            }
+            val colorBrightness = channel.state.colorBrightness
+            if (colorBrightness != null) {
+                channel.state.colorBrightness = nearByNumber(colorBrightness, 0, 100)
+            }
+            val brightness = channel.state.brightness
+            if (brightness != null) {
+                channel.state.brightness = nearByNumber(brightness, 0, 100)
+            }
+        }
+    }
+
+    private fun updateRollerShutterSchedule(channel: Channel) {
+        schedule {
+            logger.info("Changing Roller Shutter for channel {}", channel.id)
+            channel.state.shut = nearByNumber(channel.state.shut, 0, 100)
+            channel.state.hi = channel.state.shut != 100
+        }
+    }
+
+    private fun updateConnected(channel: Channel) {
+        schedule {
+            val previouslyConnected = channel.isConnected
+            channel.isConnected = random.nextInt(100) < 90
+            if (previouslyConnected != channel.isConnected) {
+                if (channel.isConnected) {
+                    logger.info("Connecting channel {}", channel.id)
+                } else {
+                    logger.info("Disconnecting channel {}", channel.id)
+                }
+            }
+        }
+    }
+
+    private fun updateEnabled(device: Device) {
+        schedule {
+            val previouslyEnabled = device.isEnabled
+            device.isEnabled = random.nextInt(100) < 90
+            if (previouslyEnabled != device.isEnabled) {
+                if (device.isEnabled) {
+                    logger.info("Enabling device {}", device.id)
+                } else {
+                    logger.info("Disabling device {}", device.id)
+                }
+            }
+        }
+    }
+
+    private fun updateName(device: Device) {
+        schedule {
+            logger.info("Changing name for device {}", device.id)
+            device.name = nearByString(device.name)
+        }
+    }
+
+    private fun updateComment(device: Device) {
+        schedule {
+            logger.info("Changing comment for device {}", device.id)
+            device.comment = nearByString(device.comment)
+        }
+    }
+
+    private fun updateCaption(channel: Channel) {
+        schedule {
+            logger.info("Changing caption for channel {}", channel.id)
+            channel.caption = nearByString(channel.caption)
+        }
+    }
+
+    private fun nearByString(string: String): String {
+        val sb = StringBuilder()
+        for (s in string) {
+            sb.append(if (random.nextBoolean()) s.toUpperCase() else s.toLowerCase())
+        }
+        return sb.toString()
+    }
+
+    private fun nearByNumber(number: Double, max: Double, min: Double): Double {
+        val minus = if (random.nextBoolean()) 1.0 else -1.0
+        val delta = number * random.nextDouble()
+        val newNumber = number - delta * minus
+        return max(max, min(min, newNumber))
+    }
+
+    private fun nearByNumber(number: Int, max: Int, min: Int): Int =
+            nearByNumber(number.toDouble(), max.toDouble(), min.toDouble()).toInt()
+
+    private fun nearByNumber(number: BigDecimal, max: BigDecimal, min: BigDecimal): BigDecimal =
+            BigDecimal(nearByNumber(number.toDouble(), max.toDouble(), min.toDouble()))
+
+    private fun toHex(x: Int): String {
+        val scale = x / 100.0
+        val value = (scale * 255).toInt()
+        val addZeroPrefix = value < 16
+        val hex = Integer.toHexString(value).toUpperCase()
+        return if (addZeroPrefix) "0$hex" else hex
     }
 
     private fun schedule(command: () -> Unit) {
