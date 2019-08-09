@@ -478,7 +478,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
 
     private fun updateOnOffState(channel: Channel) {
         schedule {
-            logger.info("Changing on/off for channel {}", channel.id)
+            logger.debug("Changing on/off for channel {}", channel.id)
             val on = channel.state.on
             if (on != null) {
                 channel.state.on = random.nextBoolean()
@@ -492,7 +492,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
 
     private fun updateTemperatureSchedule(channel: Channel) {
         schedule {
-            logger.info("Changing temperature for channel {}", channel.id)
+            logger.debug("Changing temperature for channel {}", channel.id)
             val adjustment = BigDecimal(channel.param2).divide(BigDecimal(100), CEILING)
             channel.state.temperature = nearByNumber(
                     channel.state.temperature,
@@ -503,7 +503,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
 
     private fun updateHumiditySchedule(channel: Channel) {
         schedule {
-            logger.info("Changing humidity for channel {}", channel.id)
+            logger.debug("Changing humidity for channel {}", channel.id)
             val adjustment = BigDecimal(channel.param3).divide(BigDecimal(100), CEILING)
             channel.state.humidity = nearByNumber(
                     channel.state.humidity,
@@ -514,7 +514,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
 
     private fun updateRgbSchedule(channel: Channel) {
         schedule {
-            logger.info("Changing RGB+brightness for channel {}", channel.id)
+            logger.debug("Changing RGB+brightness for channel {}", channel.id)
             val red = toHex(random.nextInt(256))
             val green = toHex(random.nextInt(256))
             val blue = toHex(random.nextInt(256))
@@ -534,7 +534,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
 
     private fun updateRollerShutterSchedule(channel: Channel) {
         schedule {
-            logger.info("Changing Roller Shutter for channel {}", channel.id)
+            logger.debug("Changing Roller Shutter for channel {}", channel.id)
             channel.state.shut = nearByNumber(channel.state.shut, 0, 100)
             channel.state.hi = channel.state.shut != 100
         }
@@ -546,9 +546,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
             channel.isConnected = random.nextInt(100) < 90
             if (previouslyConnected != channel.isConnected) {
                 if (channel.isConnected) {
-                    logger.info("Connecting channel {}", channel.id)
+                    logger.debug("Connecting channel {}", channel.id)
                 } else {
-                    logger.info("Disconnecting channel {}", channel.id)
+                    logger.debug("Disconnecting channel {}", channel.id)
                 }
             }
         }
@@ -560,9 +560,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
             device.isEnabled = random.nextInt(100) < 90
             if (previouslyEnabled != device.isEnabled) {
                 if (device.isEnabled) {
-                    logger.info("Enabling device {}", device.id)
+                    logger.debug("Enabling device {}", device.id)
                 } else {
-                    logger.info("Disabling device {}", device.id)
+                    logger.debug("Disabling device {}", device.id)
                 }
             }
         }
@@ -570,21 +570,21 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
 
     private fun updateName(device: Device) {
         schedule {
-            logger.info("Changing name for device {}", device.id)
+            logger.debug("Changing name for device {}", device.id)
             device.name = nearByString(device.name)
         }
     }
 
     private fun updateComment(device: Device) {
         schedule {
-            logger.info("Changing comment for device {}", device.id)
+            logger.debug("Changing comment for device {}", device.id)
             device.comment = nearByString(device.comment)
         }
     }
 
     private fun updateCaption(channel: Channel) {
         schedule {
-            logger.info("Changing caption for channel {}", channel.id)
+            logger.debug("Changing caption for channel {}", channel.id)
             channel.caption = nearByString(channel.caption)
         }
     }
