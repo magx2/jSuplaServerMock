@@ -225,7 +225,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RGBLEDCONTROLLER
         channel.type.caption = "RGB channel #${channel.id}"
-        channel.type.isOutput = false
+        channel.type.isOutput = true
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.RGBLIGHTING
@@ -249,7 +249,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.DIMMERANDRGBLED
         channel.type.caption = "Dimmer and RGB channel #${channel.id}"
-        channel.type.isOutput = false
+        channel.type.isOutput = true
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.DIMMERANDRGBLIGHTING
@@ -273,7 +273,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.DIMMER
         channel.type.caption = "Dimmer and RGB channel #${channel.id}"
-        channel.type.isOutput = false
+        channel.type.isOutput = true
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.DIMMER
@@ -297,7 +297,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.THERMOMETER
         channel.type.caption = "Thermometer channel #${channel.id}"
-        channel.type.isOutput = true
+        channel.type.isOutput = false
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.THERMOMETER
@@ -324,7 +324,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.HUMIDITYSENSOR
         channel.type.caption = "Humidity channel #${channel.id}"
-        channel.type.isOutput = true
+        channel.type.isOutput = false
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.HUMIDITY
@@ -354,7 +354,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.HUMIDITYANDTEMPSENSOR
         channel.type.caption = "Thermometer and Humidity channel #${channel.id}"
-        channel.type.isOutput = true
+        channel.type.isOutput = false
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.HUMIDITYANDTEMPERATURE
@@ -383,7 +383,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type = ChannelType()
         channel.type.name = ChannelType.NameEnum.RELAY
         channel.type.caption = "Roller shutter channel #${channel.id}"
-        channel.type.isOutput = false
+        channel.type.isOutput = true
 
         channel.function = ChannelFunction()
         channel.function.name = ChannelFunctionEnumNames.CONTROLLINGTHEROLLERSHUTTER
