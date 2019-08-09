@@ -598,9 +598,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
     }
 
     private fun nearByNumber(number: Double, min: Double, max: Double): Double {
-        val minus = when {
-            number == min -> -1.0
-            number == max -> 1.0
+        val minus = when (number) {
+            min -> -1.0
+            max -> 1.0
             else -> if (random.nextBoolean()) 1.0 else -1.0
         }
         val delta = if (number != 0.0) {
