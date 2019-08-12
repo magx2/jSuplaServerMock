@@ -428,7 +428,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.id = nextId()
         channel.caption = "Gate channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean())
+        channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean()).setPartialHi(false)
         channel.isHidden = false
         updateOnOffState(channel)
         updateConnected(channel)
@@ -440,7 +440,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.type.isOutput = true
 
         channel.function = ChannelFunction()
-        channel.function.name = ChannelFunctionEnumNames.CONTROLLINGTHEGARAGEDOOR
+        channel.function.name = ChannelFunctionEnumNames.CONTROLLINGTHEGATE
         channel.function.caption = "Gate channel #${channel.id}"
 
         // https://github.com/SUPLA/supla-cloud/wiki/Channel-Functions-parameters
