@@ -52,7 +52,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
                 buldRollerShutterDevice("Roller shutter"),
 
                 // gate and garage door
-                buildGateDevice("SBW-01").location(bathroomLocation)
+                buildGateDevice("SBW-01").location(bathroomLocation),
+                buildGateDevice("SBW-01 Second").location(livingRoomLocation),
+                buildGateDevice("SBW-01 Third")
         ).forEach {
             deviceService.addDevice(it)
             updateEnabled(it)
