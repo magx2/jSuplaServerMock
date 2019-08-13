@@ -430,7 +430,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.id = nextId()
         channel.caption = "Gate channel"
         channel.channelNumber = channelNumber
-        channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean()).setPartialHi(false)
+        channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean()).setPartialHi(random.nextBoolean())
         channel.isHidden = false
         updateOnOffState(channel)
         updateConnected(channel)
@@ -488,6 +488,9 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
             val hi = channel.state.hi
             if (hi != null) {
                 channel.state.hi = random.nextBoolean()
+            }
+            if (channel.state.partialHi != null) {
+                channel.state.partialHi = random.nextBoolean()
             }
         }
     }
