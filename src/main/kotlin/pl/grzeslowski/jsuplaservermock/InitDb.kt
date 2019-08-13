@@ -432,7 +432,7 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.channelNumber = channelNumber
         channel.state = ChannelState().setConnected(true).setHi(random.nextBoolean()).setPartialHi(random.nextBoolean())
         channel.isHidden = false
-        updateOnOffState(channel)
+        updateGateState(channel)
         updateConnected(channel)
         updateCaption(channel)
 
@@ -489,8 +489,23 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
             if (hi != null) {
                 channel.state.hi = random.nextBoolean()
             }
-            if (channel.state.partialHi != null) {
-                channel.state.partialHi = random.nextBoolean()
+        }
+    }
+
+    private fun updateGateState(channel: Channel) {
+        schedule {
+            logger.debug("Changing gate position for channel {}", channel.id)
+            val hi = channel.state.hi
+            val partialHi = channel.state.partialHi
+            if (partialHi != null && partialHi) { // partially opened
+                channel.state.hi = hi.not()
+            } else {
+                val shouldStartOpeningClosingGate = random.nextBoolean()
+                if (shouldStartOpeningClosingGate) {
+                    channel.state.partialHi = true
+                } else {
+                    channel.state.hi = random.nextBoolean()
+                }
             }
         }
     }
