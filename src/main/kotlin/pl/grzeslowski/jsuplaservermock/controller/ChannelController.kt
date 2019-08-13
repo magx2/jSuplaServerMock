@@ -86,7 +86,25 @@ class ChannelController(val channelService: ChannelService) : ChannelsApi {
             logger.warn("Cannot do action OPEN_CLOSE for {}; channel = {}", channel.function.name, channel)
             return ResponseEntity(BAD_REQUEST)
         }
-        channel.state.hi = channel.state.hi.not()
+        val oldHi = channel.state.hi!!
+        val oldPartialHi = channel.state.partialHi != null && channel.state.partialHi
+
+        when {
+            !oldHi && !oldPartialHi -> { // was open -> go to partial opened
+                channel.state.hi = false
+                channel.state.partialHi = true
+                channel.state.calibrating = false
+            }
+            oldHi -> { // was closed -> go to partial opened
+                channel.state.hi = false
+                channel.state.partialHi = true
+                channel.state.calibrating = true
+            }
+            !oldHi && oldPartialHi -> { // go to either opened / closed
+                channel.state.hi = channel.state.calibrating.not() // previous state was store in calibrating
+                channel.state.partialHi = false
+            }
+        }
         return ok().build()
     }
 
