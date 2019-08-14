@@ -89,6 +89,12 @@ class ChannelController(val channelService: ChannelService) : ChannelsApi {
         val oldHi = channel.state.hi!!
         val oldPartialHi = channel.state.partialHi != null && channel.state.partialHi
 
+        /*
+            1) hi = false, partial = false -> Gate is OPEN
+            2) hi = true,  partial = false -> Gate is CLOSE
+            3) hi = false, partial = true  -> Gate is PARTIALLY OPEN
+            4) hi = true,  partial = true  -> Gate is CLOSE
+         */
         when {
             !oldHi && !oldPartialHi -> { // was open -> go to partial opened
                 channel.state.hi = false

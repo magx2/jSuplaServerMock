@@ -476,7 +476,7 @@ class ChannelControllerTest {
         // given
         given(channelService.getChannel(channel.getId())).willReturn(channel);
         channel.getFunction().name(ChannelFunctionEnumNames.valueOf(channelFunction));
-        channel.getState().setHi(true);
+        channel.getState().setHi(false).setPartialHi(false);
         ChannelExecuteActionRequest request = new ChannelExecuteActionRequest().action(OPEN_CLOSE);
 
         // when
@@ -487,16 +487,19 @@ class ChannelControllerTest {
         assertThat(channel.getState().getHi())
                 .as(channel.getState().toString())
                 .isEqualTo(false);
+        assertThat(channel.getState().getPartialHi())
+                .as(channel.getState().toString())
+                .isEqualTo(true);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"CONTROLLINGTHEGARAGEDOOR", "CONTROLLINGTHEGATE"})
-    @DisplayName("should execute OPEN_CLOSE action when channel state is CLOSE")
-    void executeActionOpenCloseFalse(String channelFunction) {
+    @DisplayName("should execute OPEN_CLOSE action when channel state is PARTIALLY OPEN (was CLOSED)")
+    void executeActionOpenClosePartiallyOpen1(String channelFunction) {
         // given
         given(channelService.getChannel(channel.getId())).willReturn(channel);
         channel.getFunction().name(ChannelFunctionEnumNames.valueOf(channelFunction));
-        channel.getState().setHi(false);
+        channel.getState().setHi(false).setPartialHi(true).setCalibrating(true);
         ChannelExecuteActionRequest request = new ChannelExecuteActionRequest().action(OPEN_CLOSE);
 
         // when
@@ -505,6 +508,78 @@ class ChannelControllerTest {
         // then
         assertThat(response.getStatusCode().is2xxSuccessful()).as(response.toString()).isTrue();
         assertThat(channel.getState().getHi())
+                .as(channel.getState().toString())
+                .isEqualTo(false);
+        assertThat(channel.getState().getPartialHi())
+                .as(channel.getState().toString())
+                .isEqualTo(false);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"CONTROLLINGTHEGARAGEDOOR", "CONTROLLINGTHEGATE"})
+    @DisplayName("should execute OPEN_CLOSE action when channel state is PARTIALLY OPEN (was OPEN)")
+    void executeActionOpenClosePartiallyOpen2(String channelFunction) {
+        // given
+        given(channelService.getChannel(channel.getId())).willReturn(channel);
+        channel.getFunction().name(ChannelFunctionEnumNames.valueOf(channelFunction));
+        channel.getState().setHi(false).setPartialHi(true).setCalibrating(false);
+        ChannelExecuteActionRequest request = new ChannelExecuteActionRequest().action(OPEN_CLOSE);
+
+        // when
+        ResponseEntity<Void> response = controller.executeAction(request, channel.getId());
+
+        // then
+        assertThat(response.getStatusCode().is2xxSuccessful()).as(response.toString()).isTrue();
+        assertThat(channel.getState().getHi())
+                .as(channel.getState().toString())
+                .isEqualTo(true);
+        assertThat(channel.getState().getPartialHi())
+                .as(channel.getState().toString())
+                .isEqualTo(false);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"CONTROLLINGTHEGARAGEDOOR", "CONTROLLINGTHEGATE"})
+    @DisplayName("should execute OPEN_CLOSE action when channel state is CLOSE#1")
+    void executeActionOpenCloseFalse1(String channelFunction) {
+        // given
+        given(channelService.getChannel(channel.getId())).willReturn(channel);
+        channel.getFunction().name(ChannelFunctionEnumNames.valueOf(channelFunction));
+        channel.getState().setHi(true).setPartialHi(false);
+        ChannelExecuteActionRequest request = new ChannelExecuteActionRequest().action(OPEN_CLOSE);
+
+        // when
+        ResponseEntity<Void> response = controller.executeAction(request, channel.getId());
+
+        // then
+        assertThat(response.getStatusCode().is2xxSuccessful()).as(response.toString()).isTrue();
+        assertThat(channel.getState().getHi())
+                .as(channel.getState().toString())
+                .isEqualTo(false);
+        assertThat(channel.getState().getPartialHi())
+                .as(channel.getState().toString())
+                .isEqualTo(true);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"CONTROLLINGTHEGARAGEDOOR", "CONTROLLINGTHEGATE"})
+    @DisplayName("should execute OPEN_CLOSE action when channel state is CLOSE#2")
+    void executeActionOpenCloseFalse2(String channelFunction) {
+        // given
+        given(channelService.getChannel(channel.getId())).willReturn(channel);
+        channel.getFunction().name(ChannelFunctionEnumNames.valueOf(channelFunction));
+        channel.getState().setHi(true).setPartialHi(true);
+        ChannelExecuteActionRequest request = new ChannelExecuteActionRequest().action(OPEN_CLOSE);
+
+        // when
+        ResponseEntity<Void> response = controller.executeAction(request, channel.getId());
+
+        // then
+        assertThat(response.getStatusCode().is2xxSuccessful()).as(response.toString()).isTrue();
+        assertThat(channel.getState().getHi())
+                .as(channel.getState().toString())
+                .isEqualTo(false);
+        assertThat(channel.getState().getPartialHi())
                 .as(channel.getState().toString())
                 .isEqualTo(true);
     }
