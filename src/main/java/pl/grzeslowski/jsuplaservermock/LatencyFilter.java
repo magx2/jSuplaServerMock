@@ -16,7 +16,7 @@ class LatencyFilter implements Filter {
 
     @Override
     public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain chain) throws IOException, ServletException {
-        sleep(random.nextInt(2_000) + 1);
+        sleep(random.nextInt(500) + 1);
         chain.doFilter(servletRequest, servletResponse);
     }
 
