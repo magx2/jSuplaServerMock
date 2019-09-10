@@ -353,7 +353,12 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         channel.function.caption = "Humidity channel #${channel.id}"
 
         // https://github.com/SUPLA/supla-cloud/wiki/Channel-Functions-parameters
-        channel.param3 = random.nextInt(2000) - 1000
+        do {
+            channel.param3 = random.nextInt(2000) - 1000
+        } while (BigDecimal(channel.param3)
+                        .divide(BigDecimal(100.0), CEILING)
+                        .add(channel.state.humidity)
+                        .toInt() in 0..100)
 
         return channel
     }
