@@ -59,11 +59,15 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
                 // multiple channels
                 buildDeviceWithMultipleChannels("Multiple channels #1"),
                 buildDeviceWithMultipleChannels("Multiple channels #2")
-        ).forEach {
-            deviceService.addDevice(it)
-            updateEnabled(it)
-            updateName(it)
-            updateComment(it)
+        ).forEach { device ->
+            device.channelsIds = device.channels
+                    .stream()
+                    .map { it.id }
+                    .collect(Collectors.toList())
+            deviceService.addDevice(device)
+            updateEnabled(device)
+            updateName(device)
+            updateComment(device)
         }
     }
 
