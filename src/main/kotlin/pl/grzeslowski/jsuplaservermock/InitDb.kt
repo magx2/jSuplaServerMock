@@ -54,7 +54,11 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
                 // gate and garage door
                 buildGateDevice("SBW-01").location(bathroomLocation),
                 buildGateDevice("SBW-01 Second").location(livingRoomLocation),
-                buildGateDevice("SBW-01 Third")
+                buildGateDevice("SBW-01 Third"),
+
+                // multiple channels
+                buildDeviceWithMultipleChannels("Multiple channels #1"),
+                buildDeviceWithMultipleChannels("Multiple channels #2")
         ).forEach {
             deviceService.addDevice(it)
             updateEnabled(it)
@@ -157,6 +161,18 @@ open class InitDb(private val deviceService: DeviceService) : CommandLineRunner 
         gateChannel.param3 = sensor2Channel.id
         device.channels = listOf(gateChannel, sensor1Channel, sensor2Channel)
         setChannelIds(device)
+        return device
+    }
+
+    @Suppress("UNUSED_CHANGED_VALUE")
+    private fun buildDeviceWithMultipleChannels(deviceName: String): Device {
+        val device = buildBasicDevice(deviceName)
+        device.channels = ArrayList()
+        var channelNumber = 0
+        device.channels.add(buildLightChannel(channelNumber++))
+        device.channels.add(buildLightChannel(channelNumber++))
+        device.channels.add(buildRgbChannel(channelNumber++))
+        device.channels.add(buildThermometerAndHumidityChannel(channelNumber++))
         return device
     }
 
